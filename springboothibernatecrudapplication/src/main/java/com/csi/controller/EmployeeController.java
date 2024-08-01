@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -30,6 +31,12 @@ public class EmployeeController {
     public ResponseEntity<Employee> findById(@PathVariable int empId){
         return  ResponseEntity.ok(employeeServiceImpl.findById(empId));
     }
+
+    @GetMapping("/sortbyname")
+    public ResponseEntity<List<Employee>> sortbyname(){
+        return  ResponseEntity.ok(employeeServiceImpl.findAll().stream().sorted(Comparator.comparing(e->e.getEmpName())).toList());
+    }
+
     @GetMapping("/findall")
     public ResponseEntity<List<Employee>> findAll(){
         return  ResponseEntity.ok(employeeServiceImpl.findAll());
